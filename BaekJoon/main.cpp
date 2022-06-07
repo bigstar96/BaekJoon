@@ -2,22 +2,16 @@
 
 int main()
 {
-	int t;
-	std::cin >> t;
+    int N{}, X{};
+    std::cin >> N >> X;
 
-	int n = t;
-
-	for (int i = 1; i <= t; i++)
-	{
-		for (int j = 1; j < n; j++)
-		{
-			std::cout << " ";
-		}
-		for (int j = 1; j <= i; j++)
-		{
-			std::cout << "*";
-		}
-		n--;
-		std::cout << std::endl;
-	}
+    int arr[10000];
+    for (int i = 0; i < N; i++)
+    {
+        std::cin >> arr[i];
+        if (arr[i] < X)
+        {
+            printf("%d ", arr[i]);
+        }
+    }
 }
