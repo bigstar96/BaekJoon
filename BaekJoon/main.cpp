@@ -2,16 +2,16 @@
 
 int main()
 {
-    int N{}, X{};
-    std::cin >> N >> X;
+	unsigned int N{};
+	std::cin >> N;
+	int min{1000000}, max{-1000000};
+	int input{};
+	for (int i = 0; i < N; ++i)
+	{
+		std::cin >> input;
+		if (min > input) min = input;
 
-    int arr[10000];
-    for (int i = 0; i < N; i++)
-    {
-        std::cin >> arr[i];
-        if (arr[i] < X)
-        {
-            printf("%d ", arr[i]);
-        }
-    }
+		if (max < input) max = input;
+	}
+	std::cout << min << " " << max;
 }
