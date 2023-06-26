@@ -28,35 +28,55 @@
 //
 
 #include <iostream>
-#include <algorithm>
-#include <vector>
+
+struct Time
+{
+	int start{};
+	int end{};
+};
 
 int main()
 {
 	int num{};
 	std::cin >> num;
-	
-	std::vector<std::pair<int, int>> list;
 
+	Time* p;
+
+	p = new Time[num];
+	
 	for (int i = 0; i < num; ++i)
 	{
-		int start, end;
-		std::cin >> start >> end;
-		list.push_back({ end, start });
+		std::cin >> p[i].start >> p[i].end;
 	}
 
-	std::sort(list.begin(), list.end());
+	for (int i = 0; i < num - 1; ++i)
+	{
+		for (int j = i + 1; j < num; ++j)
+		{
+			if (p[i].end > p[j].end)
+			{
+				int tempStart = p[i].start;
+				int tempEnd = p[i].end;
+
+				p[i].start = p[j].start;
+				p[i].end = p[j].end;
+
+				p[j].start = tempStart;
+				p[j].end = tempEnd;
+			}
+		}
+	}
 
 	int count{ 1 };
 
-	int endtime = list[0].first;
+	int end = p[0].end;
 
-	for (int i = 1; i < num; ++i)
+	for (int i = 0; i < num; ++i)
 	{
-		if (endtime <= list[i].second)
+		if (end <= p[i].start)
 		{
 			count++;
-			endtime = list[i].first;
+			end = p[i].end;
 		}
 	}
 
