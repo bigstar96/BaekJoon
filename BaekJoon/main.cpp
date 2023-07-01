@@ -29,7 +29,6 @@ int main()
 		std::cin >> a;
 		A.push_back(a);
 	}
-
 	std::vector<int> B;
 	for (int i = 0; i < num; ++i)
 	{
@@ -38,40 +37,25 @@ int main()
 		B.push_back(a);
 	}
 
-	std::vector<int> rank;
-	for (int i = 0; i < num; ++i)
-	{
-		int a{};
-		for (int j = 0; j < num; ++j)
-		{
-			if (B[i] < B[j]) a++;
-		}
-		rank.push_back(a);
-	}
-
 	std::sort(A.begin(), A.end());
 
-	for (auto& e : A)
-	{
-		std::cout << e << " ";
-	}
-	std::cout << "\n";
-	for (auto& e : B)
-	{
-		std::cout << e << " ";
-	}
-	std::cout << "\n";
-	for (auto& e : rank)
-	{
-		std::cout << e << " ";
-	}
-	std::cout << "\n";
-
+	std::vector<bool> chk(num);
 	int sum{};
 
 	for (int i = 0; i < num; ++i)
 	{
-		sum += A[rank[i]] * B[i];
+		int temp = 0;
+		int idx = 0;
+		for (int j = 0; j < num; ++j)
+		{
+			if (temp < B[j] && chk[j] == 0)
+			{
+				temp = B[j];
+				idx = j;
+			}
+		}
+		chk[idx] = 1;
+		sum += A[i] * temp;
 	}
 
 	std::cout << sum;
