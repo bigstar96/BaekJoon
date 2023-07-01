@@ -1,61 +1,78 @@
-//정렬된 두 묶음의 숫자 카드가 있다고 하자.
-// 각 묶음의 카드의 수를 A, B라 하면 
-// 보통 두 묶음을 합쳐서 하나로 만드는 데에는 A + B 번의 비교를 해야 한다.
-// 이를테면, 20장의 숫자 카드 묶음과 30장의 숫자 카드 묶음을 합치려면 50번의 비교가 필요하다.
+//옛날 옛적에 수학이 항상 큰 골칫거리였던 나라가 있었다.
+// 이 나라의 국왕 김지민은 다음과 같은 문제를 내고 큰 상금을 걸었다.
 //
-//매우 많은 숫자 카드 묶음이 책상 위에 놓여 있다.
-// 이들을 두 묶음씩 골라 서로 합쳐나간다면, 고르는 순서에 따라서 비교 횟수가 매우 달라진다.
-// 예를 들어 10장, 20장, 40장의 묶음이 있다면 10장과 20장을 합친 뒤, 
-// 합친 30장 묶음과 40장을 합친다면(10 + 20) + (30 + 40) = 100번의 비교가 필요하다.
-// 그러나 10장과 40장을 합친 뒤, 
-// 합친 50장 묶음과 20장을 합친다면(10 + 40) + (50 + 20) = 120 번의 비교가 필요하므로 
-// 덜 효율적인 방법이다.
+//길이가 N인 정수 배열 A와 B가 있다.다음과 같이 함수 S를 정의하자.
 //
-//N개의 숫자 카드 묶음의 각각의 크기가 주어질 때, 
-// 최소한 몇 번의 비교가 필요한지를 구하는 프로그램을 작성하시오.
+//S의 값을 가장 작게 만들기 위해 A의 수를 재배열하자.단, B에 있는 수는 재배열하면 안 된다.
+//
+//S의 최솟값을 출력하는 프로그램을 작성하시오.
+//
+//첫째 줄에 N이 주어진다.둘째 줄에는 A에 있는 N개의 수가 순서대로 주어지고, 
+// 셋째 줄에는 B에 있는 수가 순서대로 주어진다.N은 50보다 작거나 같은 자연수이고, 
+// A와 B의 각 원소는 100보다 작거나 같은 음이 아닌 정수이다.
 //
 
-//예제 입력			출력
-//3					100
-//10
-//20
-//40
 
 #include <iostream>
-#include <queue>
+#include <vector>
 #include <algorithm>
 
 int main()
 {
-	int num{};
+	int num;
 	std::cin >> num;
 
-	if (num == 1)
+	std::vector<int> A;
+	for (int i = 0; i < num; ++i)
 	{
-		return 0;
+		int a;
+		std::cin >> a;
+		A.push_back(a);
 	}
 
-	std::priority_queue<int, std::vector<int>, std::greater<>> dec;
+	std::vector<int> B;
+	for (int i = 0; i < num; ++i)
+	{
+		int a;
+		std::cin >> a;
+		B.push_back(a);
+	}
+
+	std::vector<int> rank;
+	for (int i = 0; i < num; ++i)
+	{
+		int a{};
+		for (int j = 0; j < num; ++j)
+		{
+			if (B[i] < B[j]) a++;
+		}
+		rank.push_back(a);
+	}
+
+	std::sort(A.begin(), A.end());
+
+	for (auto& e : A)
+	{
+		std::cout << e << " ";
+	}
+	std::cout << "\n";
+	for (auto& e : B)
+	{
+		std::cout << e << " ";
+	}
+	std::cout << "\n";
+	for (auto& e : rank)
+	{
+		std::cout << e << " ";
+	}
+	std::cout << "\n";
+
+	int sum{};
 
 	for (int i = 0; i < num; ++i)
 	{
-		int n;
-		std::cin >> n;
-		dec.push(n);
+		sum += A[rank[i]] * B[i];
 	}
 
-	int total{};
-	while (dec.size() > 1)
-	{
-		int n1, n2;
-		n1 = dec.top();
-		dec.pop();
-		n2 = dec.top();
-		dec.pop();
-		
-		total += (n1 + n2);
-		dec.push(n1 + n2);
-	}
-
-	std::cout << total;
+	std::cout << sum;
 }
